@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+/carbon_info_sys_log/
+/carbon_info_sys_log/*

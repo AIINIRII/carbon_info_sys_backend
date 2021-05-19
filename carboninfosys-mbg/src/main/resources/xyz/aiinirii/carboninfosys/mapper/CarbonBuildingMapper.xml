@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.aiinirii.carboninfosys.mapper.CarbonBuildingMapper">
+  <resultMap id="BaseResultMap" type="xyz.aiinirii.carboninfosys.model.CarbonBuilding">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="building_id" jdbcType="BIGINT" property="buildingId" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="el_light" jdbcType="DECIMAL" property="elLight" />
+    <result column="el_air_condition" jdbcType="DECIMAL" property="elAirCondition" />
+    <result column="el_motion" jdbcType="DECIMAL" property="elMotion" />
+    <result column="el_special" jdbcType="DECIMAL" property="elSpecial" />
+    <result column="wa_supply" jdbcType="DECIMAL" property="waSupply" />
+    <result column="wa_drain" jdbcType="DECIMAL" property="waDrain" />
+    <result column="me_kitchen" jdbcType="DECIMAL" property="meKitchen" />
+    <result column="me_heating" jdbcType="DECIMAL" property="meHeating" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, building_id, create_time, el_light, el_air_condition, el_motion, el_special, 
+    wa_supply, wa_drain, me_kitchen, me_heating
+  </sql>
+  <select id="selectByExample" parameterType="xyz.aiinirii.carboninfosys.model.CarbonBuildingExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from carbon_building
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from carbon_building
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from carbon_building
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="xyz.aiinirii.carboninfosys.model.CarbonBuildingExample">
+    delete from carbon_building
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="xyz.aiinirii.carboninfosys.model.CarbonBuilding">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into carbon_building (building_id, create_time, el_light, 
+      el_air_condition, el_motion, el_special, 
+      wa_supply, wa_drain, me_kitchen, 
+      me_heating)
+    values (#{buildingId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{elLight,jdbcType=DECIMAL}, 
+      #{elAirCondition,jdbcType=DECIMAL}, #{elMotion,jdbcType=DECIMAL}, #{elSpecial,jdbcType=DECIMAL}, 
+      #{waSupply,jdbcType=DECIMAL}, #{waDrain,jdbcType=DECIMAL}, #{meKitchen,jdbcType=DECIMAL}, 
+      #{meHeating,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="xyz.aiinirii.carboninfosys.model.CarbonBuilding">
+    <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into carbon_building
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="buildingId != null">
+        building_id,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="elLight != null">
+        el_light,
+      </if>
+      <if test="elAirCondition != null">
+        el_air_condition,
+      </if>
+      <if test="elMotion != null">
+        el_motion,
+      </if>
+      <if test="elSpecial != null">
+        el_special,
+      </if>
+      <if test="waSupply != null">
+        wa_supply,
+      </if>
+      <if test="waDrain != null">
+        wa_drain,
+      </if>
+      <if test="meKitchen != null">
+        me_kitchen,
+      </if>
+      <if test="meHeating != null">
+        me_heating,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="buildingId != null">
+        #{buildingId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="elLight != null">
+        #{elLight,jdbcType=DECIMAL},
+      </if>
+      <if test="elAirCondition != null">
+        #{elAirCondition,jdbcType=DECIMAL},
+      </if>
+      <if test="elMotion != null">
+        #{elMotion,jdbcType=DECIMAL},
+      </if>
+      <if test="elSpecial != null">
+        #{elSpecial,jdbcType=DECIMAL},
+      </if>
+      <if test="waSupply != null">
+        #{waSupply,jdbcType=DECIMAL},
+      </if>
+      <if test="waDrain != null">
+        #{waDrain,jdbcType=DECIMAL},
+      </if>
+      <if test="meKitchen != null">
+        #{meKitchen,jdbcType=DECIMAL},
+      </if>
+      <if test="meHeating != null">
+        #{meHeating,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="xyz.aiinirii.carboninfosys.model.CarbonBuildingExample" resultType="java.lang.Long">
+    select count(*) from carbon_building
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update carbon_building
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.buildingId != null">
+        building_id = #{record.buildingId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.elLight != null">
+        el_light = #{record.elLight,jdbcType=DECIMAL},
+      </if>
+      <if test="record.elAirCondition != null">
+        el_air_condition = #{record.elAirCondition,jdbcType=DECIMAL},
+      </if>
+      <if test="record.elMotion != null">
+        el_motion = #{record.elMotion,jdbcType=DECIMAL},
+      </if>
+      <if test="record.elSpecial != null">
+        el_special = #{record.elSpecial,jdbcType=DECIMAL},
+      </if>
+      <if test="record.waSupply != null">
+        wa_supply = #{record.waSupply,jdbcType=DECIMAL},
+      </if>
+      <if test="record.waDrain != null">
+        wa_drain = #{record.waDrain,jdbcType=DECIMAL},
+      </if>
+      <if test="record.meKitchen != null">
+        me_kitchen = #{record.meKitchen,jdbcType=DECIMAL},
+      </if>
+      <if test="record.meHeating != null">
+        me_heating = #{record.meHeating,jdbcType=DECIMAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update carbon_building
+    set id = #{record.id,jdbcType=BIGINT},
+      building_id = #{record.buildingId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      el_light = #{record.elLight,jdbcType=DECIMAL},
+      el_air_condition = #{record.elAirCondition,jdbcType=DECIMAL},
+      el_motion = #{record.elMotion,jdbcType=DECIMAL},
+      el_special = #{record.elSpecial,jdbcType=DECIMAL},
+      wa_supply = #{record.waSupply,jdbcType=DECIMAL},
+      wa_drain = #{record.waDrain,jdbcType=DECIMAL},
+      me_kitchen = #{record.meKitchen,jdbcType=DECIMAL},
+      me_heating = #{record.meHeating,jdbcType=DECIMAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="xyz.aiinirii.carboninfosys.model.CarbonBuilding">
+    update carbon_building
+    <set>
+      <if test="buildingId != null">
+        building_id = #{buildingId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="elLight != null">
+        el_light = #{elLight,jdbcType=DECIMAL},
+      </if>
+      <if test="elAirCondition != null">
+        el_air_condition = #{elAirCondition,jdbcType=DECIMAL},
+      </if>
+      <if test="elMotion != null">
+        el_motion = #{elMotion,jdbcType=DECIMAL},
+      </if>
+      <if test="elSpecial != null">
+        el_special = #{elSpecial,jdbcType=DECIMAL},
+      </if>
+      <if test="waSupply != null">
+        wa_supply = #{waSupply,jdbcType=DECIMAL},
+      </if>
+      <if test="waDrain != null">
+        wa_drain = #{waDrain,jdbcType=DECIMAL},
+      </if>
+      <if test="meKitchen != null">
+        me_kitchen = #{meKitchen,jdbcType=DECIMAL},
+      </if>
+      <if test="meHeating != null">
+        me_heating = #{meHeating,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="xyz.aiinirii.carboninfosys.model.CarbonBuilding">
+    update carbon_building
+    set building_id = #{buildingId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      el_light = #{elLight,jdbcType=DECIMAL},
+      el_air_condition = #{elAirCondition,jdbcType=DECIMAL},
+      el_motion = #{elMotion,jdbcType=DECIMAL},
+      el_special = #{elSpecial,jdbcType=DECIMAL},
+      wa_supply = #{waSupply,jdbcType=DECIMAL},
+      wa_drain = #{waDrain,jdbcType=DECIMAL},
+      me_kitchen = #{meKitchen,jdbcType=DECIMAL},
+      me_heating = #{meHeating,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

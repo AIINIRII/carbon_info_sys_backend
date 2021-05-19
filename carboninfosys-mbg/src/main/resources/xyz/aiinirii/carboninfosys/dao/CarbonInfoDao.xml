@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.aiinirii.carboninfosys.dao.CarbonInfoDao">
+
+    <select id="getElLightAnnuallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_light)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 365 DAY);
+    </select>
+    <select id="getElAirConditionAnnuallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_air_condition)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 365 DAY);
+    </select>
+    <select id="getElMotionAnnuallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_motion)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 365 DAY);
+    </select>
+    <select id="getElSpecialAnnuallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_special)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 365 DAY);
+    </select>
+    <select id="getWaSupplyAnnuallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(wa_supply)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 365 DAY);
+    </select>
+    <select id="getWaDrainAnnuallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(wa_drain)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 365 DAY);
+    </select>
+    <select id="getMeKitchenAnnuallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(me_kitchen)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 365 DAY);
+    </select>
+    <select id="getMeHeatingAnnuallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(me_heating)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 365 DAY);
+    </select>
+    <select id="getElLightWeeklyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_light)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 7 DAY);
+    </select>
+    <select id="getElAirConditionWeeklyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_air_condition)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 7 DAY);
+    </select>
+    <select id="getElMotionWeeklyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_motion)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 7 DAY);
+    </select>
+    <select id="getWaSupplyWeeklyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(wa_supply)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 7 DAY);
+    </select>
+    <select id="getElSpecialWeeklyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_special)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 7 DAY);
+    </select>
+    <select id="getWaDrainWeeklyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(wa_drain)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 7 DAY);
+    </select>
+    <select id="getMeKitchenWeeklyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(me_kitchen)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 7 DAY);
+    </select>
+    <select id="getMeHeatingWeeklyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(me_heating)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 7 DAY);
+    </select>
+    <select id="getElLightMonthlyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_light)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 30 DAY);
+    </select>
+    <select id="getElAirConditionMonthlyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_air_condition)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 30 DAY);
+    </select>
+    <select id="getElMotionMonthlyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_motion)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 30 DAY);
+    </select>
+    <select id="getElSpecialMonthlyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_special)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 30 DAY);
+    </select>
+    <select id="getWaSupplyMonthlyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(wa_supply)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 30 DAY);
+    </select>
+    <select id="getWaDrainMonthlyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(wa_drain)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 30 DAY);
+    </select>
+    <select id="getMeKitchenMonthlyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(me_kitchen)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 30 DAY);
+    </select>
+    <select id="getMeHeatingMonthlyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(me_heating)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 30 DAY);
+    </select>
+    <select id="getElLightSeasonallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_light)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 90 DAY);
+    </select>
+    <select id="getElAirConditionSeasonallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_air_condition)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 90 DAY);
+    </select>
+    <select id="getElMotionSeasonallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_motion)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 90 DAY);
+    </select>
+    <select id="getElSpecialSeasonallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_special)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 90 DAY);
+    </select>
+    <select id="getWaSupplySeasonallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(wa_supply)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 90 DAY);
+    </select>
+    <select id="getWaDrainSeasonallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(wa_drain)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 90 DAY);
+    </select>
+    <select id="getMeKitchenSeasonallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(me_kitchen)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 90 DAY);
+    </select>
+    <select id="getMeHeatingSeasonallyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(me_heating)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 90 DAY);
+    </select>
+    <select id="getElLightDailyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_light)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 1 DAY);
+    </select>
+    <select id="getElAirConditionDailyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_air_condition)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 1 DAY);
+    </select>
+    <select id="getElMotionDailyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_motion)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 1 DAY);
+    </select>
+    <select id="getElSpecialDailyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(el_special)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 1 DAY);
+    </select>
+    <select id="getWaSupplyDailyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(wa_supply)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 1 DAY);
+    </select>
+    <select id="getWaDrainDailyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(wa_drain)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 1 DAY);
+    </select>
+    <select id="getMeKitchenDailyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(me_kitchen)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 1 DAY);
+    </select>
+    <select id="getMeHeatingDailyAVG" resultType="java.math.BigDecimal">
+        SELECT AVG(me_heating)
+        FROM carbon_building
+        WHERE building_id = #{param2}
+          AND create_time >= DATE_SUB(#{param1}, INTERVAL 1 DAY);
+    </select>
+</mapper>

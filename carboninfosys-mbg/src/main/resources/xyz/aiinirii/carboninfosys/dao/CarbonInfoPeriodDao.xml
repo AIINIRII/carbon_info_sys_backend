@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.aiinirii.carboninfosys.dao.CarbonInfoPeriodDao">
+    <resultMap id="BaseResultMap" type="xyz.aiinirii.carboninfosys.model.CarbonBuildingComputedInfoPeriodAvg">
+        <result column="avg_el_light_computed" jdbcType="DECIMAL" property="elLightComputed"/>
+        <result column="avg_el_air_condition_computed" jdbcType="DECIMAL" property="elAirConditionComputed"/>
+        <result column="avg_el_motion_computed" jdbcType="DECIMAL" property="elMotionComputed"/>
+        <result column="avg_el_special_computed" jdbcType="DECIMAL" property="elSpecialComputed"/>
+        <result column="avg_wa_supply_computed" jdbcType="DECIMAL" property="waSupplyComputed"/>
+        <result column="avg_wa_drain_computed" jdbcType="DECIMAL" property="waDrainComputed"/>
+        <result column="avg_me_kitchen_computed" jdbcType="DECIMAL" property="meKitchenComputed"/>
+        <result column="avg_me_heating_computed" jdbcType="DECIMAL" property="meHeatingComputed"/>
+        <result column="avg_el_total_computed" jdbcType="DECIMAL" property="elTotalComputed"/>
+        <result column="avg_wa_total_computed" jdbcType="DECIMAL" property="waTotalComputed"/>
+        <result column="avg_me_total_computed" jdbcType="DECIMAL" property="meTotalComputed"/>
+        <result column="avg_total_computed" jdbcType="DECIMAL" property="totalComputed"/>
+    </resultMap>
+    <resultMap id="ComputedResultMap" type="xyz.aiinirii.carboninfosys.model.CarbonBuildingComputedDetailedDate">
+        <result column="year" jdbcType="INTEGER" property="year"/>
+        <result column="month" jdbcType="INTEGER" property="month"/>
+        <result column="day" jdbcType="INTEGER" property="day"/>
+        <result column="hour" jdbcType="INTEGER" property="hour"/>
+        <result column="el_light_computed" jdbcType="DECIMAL" property="elLightComputed"/>
+        <result column="el_air_condition_computed" jdbcType="DECIMAL" property="elAirConditionComputed"/>
+        <result column="el_motion_computed" jdbcType="DECIMAL" property="elMotionComputed"/>
+        <result column="el_special_computed" jdbcType="DECIMAL" property="elSpecialComputed"/>
+        <result column="wa_supply_computed" jdbcType="DECIMAL" property="waSupplyComputed"/>
+        <result column="wa_drain_computed" jdbcType="DECIMAL" property="waDrainComputed"/>
+        <result column="me_kitchen_computed" jdbcType="DECIMAL" property="meKitchenComputed"/>
+        <result column="me_heating_computed" jdbcType="DECIMAL" property="meHeatingComputed"/>
+        <result column="el_total_computed" jdbcType="DECIMAL" property="elTotalComputed"/>
+        <result column="wa_total_computed" jdbcType="DECIMAL" property="waTotalComputed"/>
+        <result column="me_total_computed" jdbcType="DECIMAL" property="meTotalComputed"/>
+        <result column="total_computed" jdbcType="DECIMAL" property="totalComputed"/>
+    </resultMap>
+    <resultMap id="OriginResultMap" type="xyz.aiinirii.carboninfosys.model.CarbonBuildingDetailedDate">
+        <result column="year" jdbcType="INTEGER" property="year"/>
+        <result column="month" jdbcType="INTEGER" property="month"/>
+        <result column="day" jdbcType="INTEGER" property="day"/>
+        <result column="hour" jdbcType="INTEGER" property="hour"/>
+        <result column="el_light" jdbcType="DECIMAL" property="elLight"/>
+        <result column="el_air_condition" jdbcType="DECIMAL" property="elAirCondition"/>
+        <result column="el_motion" jdbcType="DECIMAL" property="elMotion"/>
+        <result column="el_special" jdbcType="DECIMAL" property="elSpecial"/>
+        <result column="wa_supply" jdbcType="DECIMAL" property="waSupply"/>
+        <result column="wa_drain" jdbcType="DECIMAL" property="waDrain"/>
+        <result column="me_kitchen" jdbcType="DECIMAL" property="meKitchen"/>
+        <result column="me_heating" jdbcType="DECIMAL" property="meHeating"/>
+    </resultMap>
+    <select id="getCarbonInfoPeriodsAVG" resultMap="BaseResultMap">
+        SELECT
+        AVG(el_light_computed) AS avg_el_light_computed,
+        AVG(el_air_condition_computed) AS avg_el_air_condition_computed,
+        AVG(el_motion_computed) AS avg_el_motion_computed,
+        AVG(el_special_computed) AS avg_el_special_computed,
+        AVG(wa_supply_computed) AS avg_wa_supply_computed,
+        AVG(wa_drain_computed) AS avg_wa_drain_computed,
+        AVG(me_kitchen_computed) AS avg_me_kitchen_computed,
+        AVG(me_heating_computed) AS avg_me_heating_computed,
+        AVG(el_total_computed) AS avg_el_total_computed,
+        AVG(wa_total_computed) AS avg_wa_total_computed,
+        AVG(me_total_computed) AS avg_me_total_computed,
+        AVG(total_computed) AS avg_total_computed
+        FROM carbon_building_computed LEFT JOIN building b on carbon_building_computed.building_id = b.id
+        WHERE b.area_id = #{param1}
+        AND
+        <if test="param2 == 0">
+            create_time >= DATE_SUB(#{param3}, INTERVAL 1 DAY);
+        </if>
+        <if test="param2 == 1">
+            create_time >= DATE_SUB(#{param3}, INTERVAL 7 DAY);
+        </if>
+        <if test="param2 == 2">
+            create_time >= DATE_SUB(#{param3}, INTERVAL 30 DAY);
+        </if>
+        <if test="param2 == 3">
+            create_time >= DATE_SUB(#{param3}, INTERVAL 90 DAY);
+        </if>
+        <if test="param2 == 4">
+            create_time >= DATE_SUB(#{param3}, INTERVAL 365 DAY);
+        </if>
+    </select>
+
+    <select id="getCarbonBuildingComputedListByHours" resultMap="ComputedResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               DAY(create_time)               AS day,
+               HOUR(create_time)              AS hour,
+               AVG(el_light_computed)         AS el_light_computed,
+               AVG(el_air_condition_computed) AS el_air_condition_computed,
+               AVG(el_motion_computed)        AS el_motion_computed,
+               AVG(el_special_computed)       AS el_special_computed,
+               AVG(wa_supply_computed)        AS wa_supply_computed,
+               AVG(wa_drain_computed)         AS wa_drain_computed,
+               AVG(me_kitchen_computed)       AS me_kitchen_computed,
+               AVG(me_heating_computed)       AS me_heating_computed,
+               AVG(el_total_computed)         AS el_total_computed,
+               AVG(wa_total_computed)         AS wa_total_computed,
+               AVG(me_total_computed)         AS me_total_computed,
+               AVG(total_computed)            AS total_computed
+        FROM carbon_building_computed
+                 LEFT JOIN building b on carbon_building_computed.building_id = b.id
+        WHERE b.area_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time), HOUR(create_time) DESC
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC, HOUR(create_time) DESC
+    </select>
+    <select id="getCarbonBuildingComputedListByDays" resultMap="ComputedResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               DAY(create_time)               AS day,
+               AVG(el_light_computed)         AS el_light_computed,
+               AVG(el_air_condition_computed) AS el_air_condition_computed,
+               AVG(el_motion_computed)        AS el_motion_computed,
+               AVG(el_special_computed)       AS el_special_computed,
+               AVG(wa_supply_computed)        AS wa_supply_computed,
+               AVG(wa_drain_computed)         AS wa_drain_computed,
+               AVG(me_kitchen_computed)       AS me_kitchen_computed,
+               AVG(me_heating_computed)       AS me_heating_computed,
+               AVG(el_total_computed)         AS el_total_computed,
+               AVG(wa_total_computed)         AS wa_total_computed,
+               AVG(me_total_computed)         AS me_total_computed,
+               AVG(total_computed)            AS total_computed
+        FROM carbon_building_computed
+                 LEFT JOIN building b on carbon_building_computed.building_id = b.id
+        WHERE b.area_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC
+    </select>
+    <select id="getCarbonBuildingComputedListByMonths" resultMap="ComputedResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               AVG(el_light_computed)         AS el_light_computed,
+               AVG(el_air_condition_computed) AS el_air_condition_computed,
+               AVG(el_motion_computed)        AS el_motion_computed,
+               AVG(el_special_computed)       AS el_special_computed,
+               AVG(wa_supply_computed)        AS wa_supply_computed,
+               AVG(wa_drain_computed)         AS wa_drain_computed,
+               AVG(me_kitchen_computed)       AS me_kitchen_computed,
+               AVG(me_heating_computed)       AS me_heating_computed,
+               AVG(el_total_computed)         AS el_total_computed,
+               AVG(wa_total_computed)         AS wa_total_computed,
+               AVG(me_total_computed)         AS me_total_computed,
+               AVG(total_computed)            AS total_computed
+        FROM carbon_building_computed
+                 LEFT JOIN building b on carbon_building_computed.building_id = b.id
+        WHERE b.area_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC
+    </select>
+    <select id="getCarbonBuildingListByHours" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               DAY(create_time)               AS day,
+               HOUR(create_time)              AS hour,
+               AVG(el_light)         AS el_light,
+               AVG(el_air_condition) AS el_air_condition,
+               AVG(el_motion)        AS el_motion,
+               AVG(el_special)       AS el_special,
+               AVG(wa_supply)        AS wa_supply,
+               AVG(wa_drain)         AS wa_drain,
+               AVG(me_kitchen)       AS me_kitchen,
+               AVG(me_heating)       AS me_heating
+        FROM carbon_building
+                 LEFT JOIN building b on carbon_building.building_id = b.id
+        WHERE b.area_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time), HOUR(create_time) DESC
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC, HOUR(create_time) DESC
+    </select>
+    <select id="getCarbonBuildingListByDays" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               DAY(create_time)               AS day,
+               AVG(el_light)         AS el_light,
+               AVG(el_air_condition) AS el_air_condition,
+               AVG(el_motion)        AS el_motion,
+               AVG(el_special)       AS el_special,
+               AVG(wa_supply)        AS wa_supply,
+               AVG(wa_drain)         AS wa_drain,
+               AVG(me_kitchen)       AS me_kitchen,
+               AVG(me_heating)       AS me_heating
+        FROM carbon_building
+                 LEFT JOIN building b on carbon_building.building_id = b.id
+        WHERE b.area_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC
+    </select>
+    <select id="getCarbonBuildingListByMonths" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               AVG(el_light)         AS el_light,
+               AVG(el_air_condition) AS el_air_condition,
+               AVG(el_motion)        AS el_motion,
+               AVG(el_special)       AS el_special,
+               AVG(wa_supply)        AS wa_supply,
+               AVG(wa_drain)         AS wa_drain,
+               AVG(me_kitchen)       AS me_kitchen,
+               AVG(me_heating)       AS me_heating
+        FROM carbon_building
+                 LEFT JOIN building b on carbon_building.building_id = b.id
+        WHERE b.area_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC
+    </select>
+
+    <select id="getCarbonInfoPeriodsByBuildingIdAVG" resultMap="BaseResultMap">
+        SELECT
+        AVG(el_light_computed) AS avg_el_light_computed,
+        AVG(el_air_condition_computed) AS avg_el_air_condition_computed,
+        AVG(el_motion_computed) AS avg_el_motion_computed,
+        AVG(el_special_computed) AS avg_el_special_computed,
+        AVG(wa_supply_computed) AS avg_wa_supply_computed,
+        AVG(wa_drain_computed) AS avg_wa_drain_computed,
+        AVG(me_kitchen_computed) AS avg_me_kitchen_computed,
+        AVG(me_heating_computed) AS avg_me_heating_computed,
+        AVG(el_total_computed) AS avg_el_total_computed,
+        AVG(wa_total_computed) AS avg_wa_total_computed,
+        AVG(me_total_computed) AS avg_me_total_computed,
+        AVG(total_computed) AS avg_total_computed
+        FROM carbon_building_computed
+        WHERE building_id = #{param1}
+        AND
+        <if test="param2 == 0">
+            create_time >= DATE_SUB(#{param3}, INTERVAL 1 DAY);
+        </if>
+        <if test="param2 == 1">
+            create_time >= DATE_SUB(#{param3}, INTERVAL 7 DAY);
+        </if>
+        <if test="param2 == 2">
+            create_time >= DATE_SUB(#{param3}, INTERVAL 30 DAY);
+        </if>
+        <if test="param2 == 3">
+            create_time >= DATE_SUB(#{param3}, INTERVAL 90 DAY);
+        </if>
+        <if test="param2 == 4">
+            create_time >= DATE_SUB(#{param3}, INTERVAL 365 DAY);
+        </if>
+    </select>
+
+    <select id="getCarbonBuildingComputedListByBuildingIdByHours" resultMap="ComputedResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               DAY(create_time)               AS day,
+               HOUR(create_time)              AS hour,
+               AVG(el_light_computed)         AS el_light_computed,
+               AVG(el_air_condition_computed) AS el_air_condition_computed,
+               AVG(el_motion_computed)        AS el_motion_computed,
+               AVG(el_special_computed)       AS el_special_computed,
+               AVG(wa_supply_computed)        AS wa_supply_computed,
+               AVG(wa_drain_computed)         AS wa_drain_computed,
+               AVG(me_kitchen_computed)       AS me_kitchen_computed,
+               AVG(me_heating_computed)       AS me_heating_computed,
+               AVG(el_total_computed)         AS el_total_computed,
+               AVG(wa_total_computed)         AS wa_total_computed,
+               AVG(me_total_computed)         AS me_total_computed,
+               AVG(total_computed)            AS total_computed
+        FROM carbon_building_computed
+        WHERE building_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time), HOUR(create_time) DESC
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC, HOUR(create_time) DESC
+    </select>
+    <select id="getCarbonBuildingComputedListByBuildingIdByDays" resultMap="ComputedResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               DAY(create_time)               AS day,
+               AVG(el_light_computed)         AS el_light_computed,
+               AVG(el_air_condition_computed) AS el_air_condition_computed,
+               AVG(el_motion_computed)        AS el_motion_computed,
+               AVG(el_special_computed)       AS el_special_computed,
+               AVG(wa_supply_computed)        AS wa_supply_computed,
+               AVG(wa_drain_computed)         AS wa_drain_computed,
+               AVG(me_kitchen_computed)       AS me_kitchen_computed,
+               AVG(me_heating_computed)       AS me_heating_computed,
+               AVG(el_total_computed)         AS el_total_computed,
+               AVG(wa_total_computed)         AS wa_total_computed,
+               AVG(me_total_computed)         AS me_total_computed,
+               AVG(total_computed)            AS total_computed
+        FROM carbon_building_computed
+        WHERE building_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC
+    </select>
+    <select id="getCarbonBuildingComputedListByBuildingIdByMonths" resultMap="ComputedResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               AVG(el_light_computed)         AS el_light_computed,
+               AVG(el_air_condition_computed) AS el_air_condition_computed,
+               AVG(el_motion_computed)        AS el_motion_computed,
+               AVG(el_special_computed)       AS el_special_computed,
+               AVG(wa_supply_computed)        AS wa_supply_computed,
+               AVG(wa_drain_computed)         AS wa_drain_computed,
+               AVG(me_kitchen_computed)       AS me_kitchen_computed,
+               AVG(me_heating_computed)       AS me_heating_computed,
+               AVG(el_total_computed)         AS el_total_computed,
+               AVG(wa_total_computed)         AS wa_total_computed,
+               AVG(me_total_computed)         AS me_total_computed,
+               AVG(total_computed)            AS total_computed
+        FROM carbon_building_computed
+        WHERE building_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC
+    </select>
+    <select id="getCarbonBuildingListByBuildingIdByHours" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               DAY(create_time)               AS day,
+               HOUR(create_time)              AS hour,
+               AVG(el_light)         AS el_light,
+               AVG(el_air_condition) AS el_air_condition,
+               AVG(el_motion)        AS el_motion,
+               AVG(el_special)       AS el_special,
+               AVG(wa_supply)        AS wa_supply,
+               AVG(wa_drain)         AS wa_drain,
+               AVG(me_kitchen)       AS me_kitchen,
+               AVG(me_heating)       AS me_heating
+        FROM carbon_building
+        WHERE building_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time), HOUR(create_time) DESC
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC, HOUR(create_time) DESC
+    </select>
+    <select id="getCarbonBuildingListByBuildingIdByDays" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               DAY(create_time)               AS day,
+               AVG(el_light)         AS el_light,
+               AVG(el_air_condition) AS el_air_condition,
+               AVG(el_motion)        AS el_motion,
+               AVG(el_special)       AS el_special,
+               AVG(wa_supply)        AS wa_supply,
+               AVG(wa_drain)         AS wa_drain,
+               AVG(me_kitchen)       AS me_kitchen,
+               AVG(me_heating)       AS me_heating
+        FROM carbon_building
+        WHERE building_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC
+    </select>
+    <select id="getCarbonBuildingListByBuildingIdByMonths" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)              AS year,
+               MONTH(create_time)             AS month,
+               AVG(el_light)         AS el_light,
+               AVG(el_air_condition) AS el_air_condition,
+               AVG(el_motion)        AS el_motion,
+               AVG(el_special)       AS el_special,
+               AVG(wa_supply)        AS wa_supply,
+               AVG(wa_drain)         AS wa_drain,
+               AVG(me_kitchen)       AS me_kitchen,
+               AVG(me_heating)       AS me_heating
+        FROM carbon_building
+        WHERE building_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC
+    </select>
+
+</mapper>

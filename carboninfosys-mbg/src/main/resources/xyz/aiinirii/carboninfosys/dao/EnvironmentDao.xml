@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xyz.aiinirii.carboninfosys.dao.EnvironmentDao">
+    <resultMap id="OriginResultMap" type="xyz.aiinirii.carboninfosys.model.EnvironmentBuildingDetailedDate">
+        <result column="year" jdbcType="INTEGER" property="year"/>
+        <result column="month" jdbcType="INTEGER" property="month"/>
+        <result column="day" jdbcType="INTEGER" property="day"/>
+        <result column="hour" jdbcType="INTEGER" property="hour"/>
+        <result column="temperature" jdbcType="DECIMAL" property="temperature"/>
+        <result column="humidity" jdbcType="DECIMAL" property="humidity"/>
+        <result column="wind_speed" jdbcType="DECIMAL" property="windSpeed"/>
+    </resultMap>
+    <select id="getEnvironmentBuildingListByHours" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)  AS year,
+               MONTH(create_time) AS month,
+               DAY(create_time)   AS day,
+               HOUR(create_time)  AS hour,
+               AVG(temperature)   AS temperature,
+               AVG(humidity)      AS humidity,
+               AVG(wind_speed)    AS wind_speed
+        FROM environment_building
+                 LEFT JOIN building b on environment_building.building_id = b.id
+        WHERE b.area_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time), HOUR(create_time) DESC
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC, HOUR(create_time) DESC
+    </select>
+    <select id="getEnvironmentBuildingListByDays" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)  AS year,
+               MONTH(create_time) AS month,
+               DAY(create_time)   AS day,
+               AVG(temperature)   AS temperature,
+               AVG(humidity)      AS humidity,
+               AVG(wind_speed)    AS wind_speed
+        FROM environment_building
+                 LEFT JOIN building b on environment_building.building_id = b.id
+        WHERE b.area_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC
+    </select>
+    <select id="getEnvironmentBuildingListByMonths" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)  AS year,
+               MONTH(create_time) AS month,
+               AVG(temperature)   AS temperature,
+               AVG(humidity)      AS humidity,
+               AVG(wind_speed)    AS wind_speed
+        FROM environment_building
+                 LEFT JOIN building b on environment_building.building_id = b.id
+        WHERE b.area_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC
+    </select>
+    <select id="getEnvironmentBuildingListByBuildingIdByHours" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)  AS year,
+               MONTH(create_time) AS month,
+               DAY(create_time)   AS day,
+               HOUR(create_time)  AS hour,
+               AVG(temperature)   AS temperature,
+               AVG(humidity)      AS humidity,
+               AVG(wind_speed)    AS wind_speed
+        FROM environment_building
+        WHERE building_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time), HOUR(create_time) DESC
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC, HOUR(create_time) DESC
+    </select>
+    <select id="getEnvironmentBuildingListByBuildingIdByDays" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)  AS year,
+               MONTH(create_time) AS month,
+               DAY(create_time)   AS day,
+               AVG(temperature)   AS temperature,
+               AVG(humidity)      AS humidity,
+               AVG(wind_speed)    AS wind_speed
+        FROM environment_building
+        WHERE building_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time), DAY(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC, DAY(create_time) DESC
+    </select>
+    <select id="getEnvironmentBuildingListByBuildingIdByMonths" resultMap="OriginResultMap">
+        SELECT YEAR(create_time)  AS year,
+               MONTH(create_time) AS month,
+               AVG(temperature)   AS temperature,
+               AVG(humidity)      AS humidity,
+               AVG(wind_speed)    AS wind_speed
+        FROM environment_building
+        WHERE building_id = #{param1}
+          AND #{param3} > create_time
+          AND create_time >= #{param2}
+        GROUP BY YEAR(create_time), MONTH(create_time)
+        ORDER BY YEAR(create_time) DESC, MONTH(create_time) DESC
+    </select>
+
+</mapper>

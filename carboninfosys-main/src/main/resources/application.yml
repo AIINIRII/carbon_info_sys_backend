@@ -1,0 +1,76 @@
+server:
+  port: 8080
+
+secure:
+  ignored:
+    urls:
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /swagger/**
+      - /**/v2/api-docs
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.ico
+      - /webjars/springfox-swagger-ui/**
+      - /druid/**
+      - /actuator/**
+      - /sso/**
+      - /home/**
+      - /product/**
+      - /brand/**
+
+jwt:
+  tokenHeader: Authorization
+  secret: carboninfosys-secret
+  expiration: 604800
+  tokenHead: 'Bearer '
+
+
+mybatis:
+  mapper-locations:
+    - classpath:xyz/**/dao/*.xml
+    - classpath*:xyz/**/mapper/*.xml
+spring:
+  jackson:
+    time-zone: GMT+8
+  datasource:
+    url: jdbc:mysql://8.140.159.241:3306/carbon_info_sys?useUnicode=true&amp&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+
+    druid:
+      initial-size: 5 #连接池初始化大小
+      min-idle: 10 #最小空闲连接数
+      max-active: 20 #最大连接数
+      web-stat-filter:
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+      stat-view-servlet: #访问监控网页的登录用户名和密码
+        login-username: druid
+        login-password: druid
+
+#  data:
+#    mongodb:
+#      host: 8.140.159.241
+#      port: 27017
+#      database: carbon_info_sys
+
+  redis:
+    host: 8.140.159.241 # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password: # Redis服务器连接密码（默认为空）
+    timeout: 5000ms # 连接超时时间（毫秒）
+
+redis:
+  database: carbon_info_sys
+  key:
+    authCode: 'ums:authCode'
+    orderId: 'oms:orderId'
+    member: 'ums:member'
+    carbonKey: 'carbon:key'
+  expire:
+    authCode: 90 # 验证码超期时间
+    common: 86400 # 24小时
+
+debug: false

@@ -9,6 +9,7 @@
         <result column="temperature" jdbcType="DECIMAL" property="temperature"/>
         <result column="humidity" jdbcType="DECIMAL" property="humidity"/>
         <result column="wind_speed" jdbcType="DECIMAL" property="windSpeed"/>
+        <result column="co2" jdbcType="DECIMAL" property="co2"/>
     </resultMap>
     <select id="getEnvironmentBuildingListByHours" resultMap="OriginResultMap">
         SELECT YEAR(create_time)  AS year,
@@ -17,7 +18,8 @@
                HOUR(create_time)  AS hour,
                AVG(temperature)   AS temperature,
                AVG(humidity)      AS humidity,
-               AVG(wind_speed)    AS wind_speed
+               AVG(wind_speed)    AS wind_speed,
+               AVG(co2)    AS co2
         FROM environment_building
                  LEFT JOIN building b on environment_building.building_id = b.id
         WHERE b.area_id = #{param1}
@@ -32,7 +34,8 @@
                DAY(create_time)   AS day,
                AVG(temperature)   AS temperature,
                AVG(humidity)      AS humidity,
-               AVG(wind_speed)    AS wind_speed
+               AVG(wind_speed)    AS wind_speed,
+               AVG(co2)    AS co2
         FROM environment_building
                  LEFT JOIN building b on environment_building.building_id = b.id
         WHERE b.area_id = #{param1}
@@ -46,7 +49,8 @@
                MONTH(create_time) AS month,
                AVG(temperature)   AS temperature,
                AVG(humidity)      AS humidity,
-               AVG(wind_speed)    AS wind_speed
+               AVG(wind_speed)    AS wind_speed,
+               AVG(co2)    AS co2
         FROM environment_building
                  LEFT JOIN building b on environment_building.building_id = b.id
         WHERE b.area_id = #{param1}
@@ -62,7 +66,8 @@
                HOUR(create_time)  AS hour,
                AVG(temperature)   AS temperature,
                AVG(humidity)      AS humidity,
-               AVG(wind_speed)    AS wind_speed
+               AVG(wind_speed)    AS wind_speed,
+               AVG(co2)    AS co2
         FROM environment_building
         WHERE building_id = #{param1}
           AND #{param3} > create_time
@@ -76,7 +81,8 @@
                DAY(create_time)   AS day,
                AVG(temperature)   AS temperature,
                AVG(humidity)      AS humidity,
-               AVG(wind_speed)    AS wind_speed
+               AVG(wind_speed)    AS wind_speed,
+               AVG(co2)    AS co2
         FROM environment_building
         WHERE building_id = #{param1}
           AND #{param3} > create_time
@@ -89,7 +95,8 @@
                MONTH(create_time) AS month,
                AVG(temperature)   AS temperature,
                AVG(humidity)      AS humidity,
-               AVG(wind_speed)    AS wind_speed
+               AVG(wind_speed)    AS wind_speed,
+               AVG(co2)    AS co2
         FROM environment_building
         WHERE building_id = #{param1}
           AND #{param3} > create_time

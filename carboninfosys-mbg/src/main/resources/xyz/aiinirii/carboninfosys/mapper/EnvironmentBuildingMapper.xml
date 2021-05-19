@@ -8,6 +8,7 @@
     <result column="wind_speed" jdbcType="DECIMAL" property="windSpeed" />
     <result column="building_id" jdbcType="BIGINT" property="buildingId" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="co2" jdbcType="DECIMAL" property="co2" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, temperature, humidity, wind_speed, building_id, create_time
+    id, temperature, humidity, wind_speed, building_id, create_time, co2
   </sql>
   <select id="selectByExample" parameterType="xyz.aiinirii.carboninfosys.model.EnvironmentBuildingExample" resultMap="BaseResultMap">
     select
@@ -105,9 +106,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into environment_building (temperature, humidity, wind_speed, 
-      building_id, create_time)
+      building_id, create_time, co2
+      )
     values (#{temperature,jdbcType=DECIMAL}, #{humidity,jdbcType=DECIMAL}, #{windSpeed,jdbcType=DECIMAL}, 
-      #{buildingId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP})
+      #{buildingId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{co2,jdbcType=DECIMAL}
+      )
   </insert>
   <insert id="insertSelective" parameterType="xyz.aiinirii.carboninfosys.model.EnvironmentBuilding">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -130,6 +133,9 @@
       <if test="createTime != null">
         create_time,
       </if>
+      <if test="co2 != null">
+        co2,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="temperature != null">
@@ -146,6 +152,9 @@
       </if>
       <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="co2 != null">
+        #{co2,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -176,6 +185,9 @@
       <if test="record.createTime != null">
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.co2 != null">
+        co2 = #{record.co2,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -188,7 +200,8 @@
       humidity = #{record.humidity,jdbcType=DECIMAL},
       wind_speed = #{record.windSpeed,jdbcType=DECIMAL},
       building_id = #{record.buildingId,jdbcType=BIGINT},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP}
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      co2 = #{record.co2,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -211,6 +224,9 @@
       <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="co2 != null">
+        co2 = #{co2,jdbcType=DECIMAL},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -220,7 +236,8 @@
       humidity = #{humidity,jdbcType=DECIMAL},
       wind_speed = #{windSpeed,jdbcType=DECIMAL},
       building_id = #{buildingId,jdbcType=BIGINT},
-      create_time = #{createTime,jdbcType=TIMESTAMP}
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      co2 = #{co2,jdbcType=DECIMAL}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

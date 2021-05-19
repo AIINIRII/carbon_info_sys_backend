@@ -1,10 +1,11 @@
 package xyz.aiinirii.carboninfosys.service;
 
 import org.springframework.transaction.annotation.Transactional;
-import xyz.aiinirii.carboninfosys.model.*;
 import xyz.aiinirii.carboninfosys.domain.CarbonInfoParam;
 import xyz.aiinirii.carboninfosys.enums.PeriodType;
+import xyz.aiinirii.carboninfosys.model.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,17 +29,21 @@ public interface CarbonBuildingService {
 
     List<CarbonBuildingComputedDetailedDate> getCarbonBuildingComputedTotalListByAll(Long areaId);
 
+    List<CarbonBuildingComputedDetailedDate> getCarbonBuildingComputedTotalList(Long areaId, Date startDate, Date endDate);
+
     List<CarbonBuildingDetailedDate> getCarbonBuildingTotalListByYear(Long areaId);
 
     List<CarbonBuildingDetailedDate> getCarbonBuildingTotalListByAll(Long areaId);
 
-     List<CarbonBuildingDetailedDate> getCarbonBuildingTotalListByMonth(Long areaId);
+    List<CarbonBuildingDetailedDate> getCarbonBuildingTotalListByMonth(Long areaId);
 
-     List<CarbonBuildingDetailedDate> getCarbonBuildingTotalListBySeason(Long areaId);
+    List<CarbonBuildingDetailedDate> getCarbonBuildingTotalListBySeason(Long areaId);
 
-     List<CarbonBuildingDetailedDate> getCarbonBuildingTotalListByWeek(Long areaId);
+    List<CarbonBuildingDetailedDate> getCarbonBuildingTotalListByWeek(Long areaId);
 
     List<CarbonBuildingDetailedDate> getCarbonBuildingTotalListByDay(Long areaId);
+
+    List<CarbonBuildingDetailedDate> getCarbonBuildingTotalList(Long areaId, Date startDate, Date endDate);
 
     CarbonBuildingComputedInfoPeriodAvg getCarbonInfoByBuildingId(Long buildingId, PeriodType type);
 
@@ -54,6 +59,8 @@ public interface CarbonBuildingService {
 
     List<CarbonBuildingComputedDetailedDate> getCarbonBuildingComputedByBuildingIdByAll(Long buildingId);
 
+    List<CarbonBuildingComputedDetailedDate> getCarbonBuildingComputedByBuildingId(Long buildingId, Date startDate, Date endDate);
+
     List<CarbonBuildingDetailedDate> getCarbonBuildingByBuildingIdByYear(Long buildingId);
 
     List<CarbonBuildingDetailedDate> getCarbonBuildingByBuildingIdByAll(Long buildingId);
@@ -66,7 +73,11 @@ public interface CarbonBuildingService {
 
     List<CarbonBuildingDetailedDate> getCarbonBuildingByBuildingIdByDay(Long buildingId);
 
+    List<CarbonBuildingDetailedDate> getCarbonBuildingByBuildingId(Long buildingId, Date startDate, Date endDate);
+
     List<CarbonBuilding> getCarbonBuildingByBuildingIdForExport(Long buildingId);
 
     List<CarbonBuildingComputed> getCarbonBuildingComputedByBuildingIdForExport(Long buildingId);
+
+
 }

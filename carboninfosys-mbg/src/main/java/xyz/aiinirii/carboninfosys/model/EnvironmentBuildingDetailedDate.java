@@ -24,4 +24,6 @@ public class EnvironmentBuildingDetailedDate implements Serializable {
     private BigDecimal humidity;
 
     private BigDecimal windSpeed;
+
+    private BigDecimal co2;
 }

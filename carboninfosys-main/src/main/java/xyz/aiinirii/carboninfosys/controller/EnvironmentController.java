@@ -2,8 +2,10 @@ package xyz.aiinirii.carboninfosys.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.ibatis.annotations.Param;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import xyz.aiinirii.carboninfosys.common.api.CommonResult;
@@ -16,8 +18,10 @@ import xyz.aiinirii.carboninfosys.service.ExportService;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -94,6 +98,15 @@ public class EnvironmentController {
         return CommonResult.success(environmentService.getEnvironmentBuildingTotalListByDay(areaId));
     }
 
+    @ApiOperation("根据区域ID获取环境信息序列(范围)")
+    @GetMapping("/area/{areaId}/list/range")
+    public CommonResult<List<EnvironmentBuildingDetailedDate>> getEnvironmentBuildingTotalList(@PathVariable("areaId") Long areaId,
+                                                                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam("startDate") Date startDate,
+                                                                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam("endDate") Date endDate) {
+        return CommonResult.success(environmentService.getEnvironmentBuildingTotalList(areaId, startDate, endDate));
+    }
+
+
     @ApiOperation("根据建筑ID获取环境信息序列(当年)")
     @GetMapping("/building/{buildingId}/list/year")
     public CommonResult<List<EnvironmentBuildingDetailedDate>> getEnvironmentBuildingByBuildingIdByYear(@PathVariable("buildingId") Long buildingId) {
@@ -129,6 +142,15 @@ public class EnvironmentController {
     public CommonResult<List<EnvironmentBuildingDetailedDate>> getEnvironmentBuildingByBuildingIdByDay(@PathVariable("buildingId") Long buildingId) {
         return CommonResult.success(environmentService.getEnvironmentBuildingByBuildingIdByDay(buildingId));
     }
+
+    @ApiOperation("根据建筑ID获取环境信息序列(范围)")
+    @GetMapping("/building/{buildingId}/list/range")
+    public CommonResult<List<EnvironmentBuildingDetailedDate>> getEnvironmentBuildingByBuildingId(@PathVariable("buildingId") Long buildingId,
+                                                                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam("startDate") Date startDate,
+                                                                                                  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam("endDate") Date endDate) {
+        return CommonResult.success(environmentService.getEnvironmentBuildingByBuildingId(buildingId, startDate, endDate));
+    }
+
     @ApiOperation("根据建筑id以Excel形式导出")
     @GetMapping("/{buildingId}/export")
     public void exportExcel(@PathVariable("buildingId") Long buildingId, HttpServletResponse httpServletResponse) throws IOException {

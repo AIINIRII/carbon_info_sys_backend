@@ -6,6 +6,7 @@ import xyz.aiinirii.carboninfosys.domain.EnvironmentInfoParam;
 import xyz.aiinirii.carboninfosys.enums.PeriodType;
 import xyz.aiinirii.carboninfosys.model.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +30,8 @@ public interface EnvironmentService {
 
     List<EnvironmentBuildingDetailedDate> getEnvironmentBuildingByBuildingIdByYear(Long buildingId);
 
+    List<EnvironmentBuildingDetailedDate> getEnvironmentBuildingTotalList(Long areaId, Date startDate, Date endDate);
+
     List<EnvironmentBuildingDetailedDate> getEnvironmentBuildingByBuildingIdByAll(Long buildingId);
 
     List<EnvironmentBuildingDetailedDate> getEnvironmentBuildingByBuildingIdByMonth(Long buildingId);
@@ -39,5 +42,8 @@ public interface EnvironmentService {
 
     List<EnvironmentBuildingDetailedDate> getEnvironmentBuildingByBuildingIdByDay(Long buildingId);
 
+    List<EnvironmentBuildingDetailedDate> getEnvironmentBuildingByBuildingId(Long buildingId, Date startDate, Date endDate);
+
     List<EnvironmentBuilding> getEnvironmentBuildingByBuildingIdForExport(Long buildingId);
+
 }

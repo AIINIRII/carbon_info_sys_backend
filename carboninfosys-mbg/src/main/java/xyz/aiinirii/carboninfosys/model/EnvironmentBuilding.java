@@ -18,6 +18,8 @@ public class EnvironmentBuilding implements Serializable {
 
     private Date createTime;
 
+    private BigDecimal co2;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -68,6 +70,14 @@ public class EnvironmentBuilding implements Serializable {
         this.createTime = createTime;
     }
 
+    public BigDecimal getCo2() {
+        return co2;
+    }
+
+    public void setCo2(BigDecimal co2) {
+        this.co2 = co2;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
@@ -80,6 +90,7 @@ public class EnvironmentBuilding implements Serializable {
         sb.append(", windSpeed=").append(windSpeed);
         sb.append(", buildingId=").append(buildingId);
         sb.append(", createTime=").append(createTime);
+        sb.append(", co2=").append(co2);
         sb.append(", serialVersionUID=").append(serialVersionUID);
         sb.append("]");
         return sb.toString();

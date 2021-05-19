@@ -465,6 +465,66 @@ public class EnvironmentBuildingExample {
             addCriterion("create_time not between", value1, value2, "createTime");
             return (Criteria) this;
         }
+
+        public Criteria andCo2IsNull() {
+            addCriterion("co2 is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2IsNotNull() {
+            addCriterion("co2 is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2EqualTo(BigDecimal value) {
+            addCriterion("co2 =", value, "co2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2NotEqualTo(BigDecimal value) {
+            addCriterion("co2 <>", value, "co2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2GreaterThan(BigDecimal value) {
+            addCriterion("co2 >", value, "co2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2GreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("co2 >=", value, "co2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2LessThan(BigDecimal value) {
+            addCriterion("co2 <", value, "co2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2LessThanOrEqualTo(BigDecimal value) {
+            addCriterion("co2 <=", value, "co2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2In(List<BigDecimal> values) {
+            addCriterion("co2 in", values, "co2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2NotIn(List<BigDecimal> values) {
+            addCriterion("co2 not in", values, "co2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2Between(BigDecimal value1, BigDecimal value2) {
+            addCriterion("co2 between", value1, value2, "co2");
+            return (Criteria) this;
+        }
+
+        public Criteria andCo2NotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("co2 not between", value1, value2, "co2");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

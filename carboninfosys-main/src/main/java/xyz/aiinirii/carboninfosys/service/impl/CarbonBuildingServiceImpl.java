@@ -16,6 +16,7 @@ import xyz.aiinirii.carboninfosys.util.CarbonInfoCalculateUtil;
 
 import javax.annotation.Resource;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -117,7 +118,9 @@ public class CarbonBuildingServiceImpl implements CarbonBuildingService {
     private void setCarbonInfo(Long buildingId, CarbonInfoParam carbonInfoParam, CarbonBuilding carbonBuilding) {
         carbonBuilding.setBuildingId(buildingId);
         Date date = carbonInfoParam.getDate();
-        if (date == null) date = new Date();
+        if (date == null) {
+            date = new Date();
+        }
         carbonBuilding.setCreateTime(date);
         carbonBuilding.setElLight(carbonInfoParam.getElLight());
         carbonBuilding.setElAirCondition(carbonInfoParam.getElAirCondition());
@@ -245,6 +248,22 @@ public class CarbonBuildingServiceImpl implements CarbonBuildingService {
     }
 
     @Override
+    public List<CarbonBuildingDetailedDate> getCarbonBuildingTotalList(Long areaId, Date startDate, Date endDate) {
+        if (startDate.before(endDate)) {
+            if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 7)) {
+                return carbonInfoPeriodDao.getCarbonBuildingListByHours(areaId, startDate, endDate);
+            } else if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 365L)) {
+                return carbonInfoPeriodDao.getCarbonBuildingListByDays(areaId, startDate, endDate);
+            } else {
+                return carbonInfoPeriodDao.getCarbonBuildingListByMonths(areaId, startDate, endDate);
+            }
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
+
+    @Override
     public CarbonBuildingComputedInfoPeriodAvg getCarbonInfoByBuildingId(Long buildingId, PeriodType periodType) {
         BuildingExample buildingExample = new BuildingExample();
         buildingExample.createCriteria().andIdEqualTo(buildingId);
@@ -258,6 +277,21 @@ public class CarbonBuildingServiceImpl implements CarbonBuildingService {
         calendar.setTime(now);
         calendar.add(Calendar.YEAR, -10);
         return carbonInfoPeriodDao.getCarbonBuildingComputedListByBuildingIdByMonths(buildingId, calendar.getTime(), now);
+    }
+
+    @Override
+    public List<CarbonBuildingComputedDetailedDate> getCarbonBuildingComputedByBuildingId(Long buildingId, Date startDate, Date endDate) {
+        if (startDate.before(endDate)) {
+            if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 7)) {
+                return carbonInfoPeriodDao.getCarbonBuildingComputedListByBuildingIdByHours(buildingId, startDate, endDate);
+            } else if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 365L)) {
+                return carbonInfoPeriodDao.getCarbonBuildingComputedListByBuildingIdByDays(buildingId, startDate, endDate);
+            } else {
+                return carbonInfoPeriodDao.getCarbonBuildingComputedListByBuildingIdByMonths(buildingId, startDate, endDate);
+            }
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override
@@ -303,6 +337,21 @@ public class CarbonBuildingServiceImpl implements CarbonBuildingService {
         calendar.setTime(now);
         calendar.add(Calendar.DATE, -1);
         return carbonInfoPeriodDao.getCarbonBuildingComputedListByBuildingIdByHours(buildingId, calendar.getTime(), now);
+    }
+
+    @Override
+    public List<CarbonBuildingComputedDetailedDate> getCarbonBuildingComputedTotalList(Long areaId, Date startDate, Date endDate) {
+        if (startDate.before(endDate)) {
+            if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 7)) {
+                return carbonInfoPeriodDao.getCarbonBuildingComputedListByHours(areaId, startDate, endDate);
+            } else if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 365L)) {
+                return carbonInfoPeriodDao.getCarbonBuildingComputedListByDays(areaId, startDate, endDate);
+            } else {
+                return carbonInfoPeriodDao.getCarbonBuildingComputedListByMonths(areaId, startDate, endDate);
+            }
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override
@@ -357,6 +406,21 @@ public class CarbonBuildingServiceImpl implements CarbonBuildingService {
         calendar.setTime(now);
         calendar.add(Calendar.DATE, -1);
         return carbonInfoPeriodDao.getCarbonBuildingListByBuildingIdByHours(buildingId, calendar.getTime(), now);
+    }
+
+    @Override
+    public List<CarbonBuildingDetailedDate> getCarbonBuildingByBuildingId(Long buildingId, Date startDate, Date endDate) {
+        if (startDate.before(endDate)) {
+            if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 7)) {
+                return carbonInfoPeriodDao.getCarbonBuildingListByBuildingIdByHours(buildingId, startDate, endDate);
+            } else if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 365L)) {
+                return carbonInfoPeriodDao.getCarbonBuildingListByBuildingIdByDays(buildingId, startDate, endDate);
+            } else {
+                return carbonInfoPeriodDao.getCarbonBuildingListByBuildingIdByMonths(buildingId, startDate, endDate);
+            }
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override

@@ -146,6 +146,7 @@ public class ExportServiceImpl implements ExportService {
         headRow.createCell(2).setCellValue("温度（℃）");
         headRow.createCell(3).setCellValue("湿度（%）");
         headRow.createCell(4).setCellValue("风速（m/s）");
+        headRow.createCell(5).setCellValue("二氧化碳浓度（ppm）");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         // 遍历上面数据库查到的数据
         for (EnvironmentBuilding environmentBuilding : environmentBuildings) {
@@ -155,6 +156,7 @@ public class ExportServiceImpl implements ExportService {
             dataRow.createCell(2).setCellValue(String.format("%.2f", environmentBuilding.getTemperature()));
             dataRow.createCell(3).setCellValue(String.format("%.2f", environmentBuilding.getHumidity()));
             dataRow.createCell(4).setCellValue(String.format("%.2f", environmentBuilding.getWindSpeed()));
+            dataRow.createCell(5).setCellValue(String.format("%.2f", environmentBuilding.getCo2()));
         }
     }
 

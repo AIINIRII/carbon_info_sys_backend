@@ -15,6 +15,7 @@ import xyz.aiinirii.carboninfosys.service.EnvironmentService;
 
 import javax.annotation.Resource;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -61,7 +62,9 @@ public class EnvironmentServiceImpl implements EnvironmentService {
     private void setEnvironmentInfo(Long buildingId, EnvironmentInfoParam environmentInfoParam, EnvironmentBuilding environmentBuilding) {
         environmentBuilding.setBuildingId(buildingId);
         Date date = environmentInfoParam.getDate();
-        if (date == null) date = new Date();
+        if (date == null) {
+            date = new Date();
+        }
         environmentBuilding.setCreateTime(date);
         environmentBuilding.setHumidity(environmentInfoParam.getHumidity());
         environmentBuilding.setWindSpeed(environmentInfoParam.getWindSpeed());
@@ -121,6 +124,22 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         calendar.add(Calendar.DATE, -1);
         return environmentDao.getEnvironmentBuildingListByHours(areaId, calendar.getTime(), now);
     }
+
+    @Override
+    public List<EnvironmentBuildingDetailedDate> getEnvironmentBuildingTotalList(Long areaId, Date startDate, Date endDate) {
+        if (startDate.before(endDate)) {
+            if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 7)) {
+                return environmentDao.getEnvironmentBuildingListByHours(areaId, startDate, endDate);
+            } else if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 365L)) {
+                return environmentDao.getEnvironmentBuildingListByDays(areaId, startDate, endDate);
+            } else {
+                return environmentDao.getEnvironmentBuildingListByMonths(areaId, startDate, endDate);
+            }
+        } else {
+            return Collections.emptyList();
+        }
+    }
+
     @Override
     public List<EnvironmentBuildingDetailedDate> getEnvironmentBuildingByBuildingIdByAll(Long buildingId) {
         Calendar calendar = Calendar.getInstance();
@@ -173,6 +192,21 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         calendar.setTime(now);
         calendar.add(Calendar.DATE, -1);
         return environmentDao.getEnvironmentBuildingListByBuildingIdByHours(buildingId, calendar.getTime(), now);
+    }
+
+    @Override
+    public List<EnvironmentBuildingDetailedDate> getEnvironmentBuildingByBuildingId(Long buildingId, Date startDate, Date endDate) {
+        if (startDate.before(endDate)) {
+            if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 7)) {
+                return environmentDao.getEnvironmentBuildingListByBuildingIdByHours(buildingId, startDate, endDate);
+            } else if (endDate.getTime() - startDate.getTime() < (1000 * 60 * 60 * 24 * 365L)) {
+                return environmentDao.getEnvironmentBuildingListByBuildingIdByDays(buildingId, startDate, endDate);
+            } else {
+                return environmentDao.getEnvironmentBuildingListByBuildingIdByMonths(buildingId, startDate, endDate);
+            }
+        } else {
+            return Collections.emptyList();
+        }
     }
 
     @Override

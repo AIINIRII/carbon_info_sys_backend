@@ -20,6 +20,8 @@ public class EnvironmentInfoParam {
 
     private BigDecimal windSpeed;
 
+    private BigDecimal co2;
+
 //    private BigDecimal pm25;
 
     @ApiModelProperty(value = "日期")

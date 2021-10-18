@@ -69,6 +69,7 @@ public class EnvironmentServiceImpl implements EnvironmentService {
         environmentBuilding.setHumidity(environmentInfoParam.getHumidity());
         environmentBuilding.setWindSpeed(environmentInfoParam.getWindSpeed());
         environmentBuilding.setTemperature(environmentInfoParam.getTemperature());
+        environmentBuilding.setCo2(environmentInfoParam.getCo2());
     }
 
     @Override
